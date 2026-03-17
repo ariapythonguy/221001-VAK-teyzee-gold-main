@@ -17,16 +17,22 @@ function populateMenu(data, containerId) {
         return;
     }
 
-    const currentHour = new Date().getHours();
-
+    // -deprecated-  const currentHour = new Date().getHours();
+// --- CHANGE STARTS HERE ---
+    // Get current time in HHMM format (e.g., 1:30 PM becomes 1330)
+    const now = new Date();
+    const currentTime = (now.getHours() * 100) + now.getMinutes(); 
+    // --- CHANGE ENDS HERE ---
     data.forEach(dish => {
         if (!dish.category) return;
 
         const categoryClass = dish.category.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
         const dishElement = document.createElement("div");
         dishElement.classList.add("dish", categoryClass);
-
-        const isAvailable = currentHour >= dish.startTime && currentHour < dish.endTime;
+// --- UPDATE THIS LINE ---
+        const isAvailable = currentTime >= dish.startTime && currentTime < dish.endTime;
+        // -------------------------
+        // ----- deprecated -- const isAvailable = currentHour >= dish.startTime && currentHour < dish.endTime;
         const stars = generateStars(dish.rating);
 
         let shortDesc = dish.description.length > 50 ? dish.description.substring(0, 50) + "..." : dish.description;
